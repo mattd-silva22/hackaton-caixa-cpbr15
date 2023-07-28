@@ -3,11 +3,6 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { Database } from './database/database.js'
 import { compare } from 'bcrypt'
 
-// let database: Database
-
-// import('./database/db.json').then((data) => {
-//   database = new Database(JSON.stringify(data))
-// })
 const database = new Database()
 
 type Error = {

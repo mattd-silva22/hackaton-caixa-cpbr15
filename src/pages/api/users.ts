@@ -4,12 +4,6 @@ import { Database } from './database/database.js'
 import { randomUUID } from 'node:crypto'
 import { hash } from 'bcrypt'
 
-// let database: Database
-
-// import('./database/db.json' || null).then((data) => {
-//   database = new Database(JSON.stringify(data))
-// })
-
 const database = new Database()
 
 type Data = {
