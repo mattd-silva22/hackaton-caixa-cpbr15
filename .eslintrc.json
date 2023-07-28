@@ -1,5 +1,7 @@
 {
-  "extends": "next/core-web-vitals",
+  "extends": 
+  "@rocketseat/eslint-config/node"
+  ,
   "rules": {
   }
 }
