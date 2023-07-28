@@ -10,7 +10,6 @@ import {
   Link,
 } from '@chakra-ui/react'
 import {
-  ArrowLeftIcon,
   ChevronLeftIcon,
   EmailIcon,
   LockIcon,

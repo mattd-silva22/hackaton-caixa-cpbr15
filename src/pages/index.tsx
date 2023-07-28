@@ -1,5 +1,8 @@
 import Head from 'next/head'
 import MenuButton from '@/components/MenuButton'
+import { EmailIcon } from '@chakra-ui/icons'
+import HeadLogo from '@/components/HeadLogo'
+import HealthCard from '@/components/HealthCard'
 
 export default function Home() {
   return (
@@ -11,7 +14,11 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <MenuButton icon={<></>} title="Ola" />
+        <HeadLogo />
+
+        <HealthCard healthValue={23} />
+
+        <MenuButton icon={<EmailIcon color="var(--white)" />} title="Ola" />
       </main>
     </>
   )

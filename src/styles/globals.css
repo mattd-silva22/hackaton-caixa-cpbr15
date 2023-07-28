@@ -1,6 +1,9 @@
 :root {
   --primary:  #0336BF;
   --secondary: #FB8300;
+  --red: #D33939;
+  --text: #1C1939;
+  --white: #FBFCFE;
 }
 
 * {
@@ -30,7 +33,7 @@ body {
 main {
   width: 100%;
   height: 100%;
-  
+  padding: 24px 16px;
 }
 
 
