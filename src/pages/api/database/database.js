@@ -7,18 +7,14 @@ const databasePath = './src/pages/api/database/db.json'
 export class Database {
   #database = {}
 
-  constructor(data) {
-    if (!data) {
-      fs.readFile(databasePath, 'utf8')
-        .then((data) => {
-          this.#database = JSON.parse(data)
-        })
-        .catch(() => {
-          this.#persist()
-        })
-    } else {
-      this.#database = JSON.parse(data)
-    }
+  constructor() {
+    fs.readFile(databasePath, 'utf8')
+      .then((data) => {
+        this.#database = JSON.parse(data)
+      })
+      .catch(() => {
+        this.#persist()
+      })
   }
 
   #persist() {
@@ -34,6 +30,20 @@ export class Database {
           return !row[key] || row[key].includes(value)
         })
       })
+    }
+
+    return data
+  }
+
+  selectOne(table, search) {
+    const data = this.#database[table] ?? []
+
+    if (search) {
+      return data.filter((row) => {
+        return Object.entries(search).some(([key, value]) => {
+          return !row[key] || row[key].includes(value)
+        })
+      })[0]
     }
 
     return data

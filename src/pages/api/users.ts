@@ -2,12 +2,15 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { Database } from './database/database.js'
 import { randomUUID } from 'node:crypto'
+import { hash } from 'bcrypt'
 
-let database: Database
+// let database: Database
 
-import('./database/db.json').then((data) => {
-  database = new Database(JSON.stringify(data))
-})
+// import('./database/db.json' || null).then((data) => {
+//   database = new Database(JSON.stringify(data))
+// })
+
+const database = new Database()
 
 type Data = {
   name: string
@@ -24,28 +27,38 @@ export default async function handler(
   res: NextApiResponse<any | Error>,
 ) {
   if (req.method === 'GET') {
-    const user = await database.select('users', req.query)
+    const users: User[] = await database.select('users', req.query)
 
-    return res.status(200).json(user)
+    const filteredUsers = users.map((user) => ({
+      ...user,
+      password_hash: undefined,
+    }))
+
+    return res.status(200).json({
+      users: filteredUsers,
+    })
   }
 
   if (req.method === 'POST') {
-    const { email, name } = req.body
+    const { email, name, password } = req.body
 
-    const userExists = database.select('users', {
+    const users = database.select('users', {
       email,
     })
 
-    if (userExists) {
+    if (users[0]) {
       const code = 403
 
       return res.status(code).json({ code, message: 'User already exists' })
     }
 
+    const passwordHash = await hash(password, 6)
+
     const user = {
       id: randomUUID(),
       name,
       email,
+      password_hash: passwordHash,
     }
 
     database.insert('users', user)

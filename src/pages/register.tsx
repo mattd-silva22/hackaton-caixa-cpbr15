@@ -9,13 +9,19 @@ import {
   InputLeftElement,
   Link,
 } from '@chakra-ui/react'
-import { EmailIcon, LockIcon } from '@chakra-ui/icons'
+import {
+  ArrowLeftIcon,
+  ChevronLeftIcon,
+  EmailIcon,
+  LockIcon,
+  MoonIcon,
+} from '@chakra-ui/icons'
 import { FormEvent } from 'react'
 import { useAuth } from '@/Contexts/AuthProvider'
 import { useRouter } from 'next/router'
 
-export default function Login() {
-  const { signIn, user } = useAuth()
+export default function Register() {
+  const { signUp, user } = useAuth()
   const { push } = useRouter()
 
   if (user) {
@@ -25,16 +31,18 @@ export default function Login() {
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
 
+    const name = event.currentTarget.nome.value
     const email = event.currentTarget.email.value
     const password = event.currentTarget.password.value
 
     try {
-      signIn({
+      signUp({
+        name,
         email,
         password,
       })
     } catch (error) {
-      alert('Não foi possivel fazer login')
+      alert('Não foi possível criar conta')
     }
   }
 
@@ -59,10 +67,47 @@ export default function Login() {
           <Image src="/login/logo-branca.svg" width="200px" />
         </Flex>
 
+        <Flex gap="4px" alignItems="center" w="100%" padding="0px">
+          <Link
+            onClick={() => push('/login')}
+            fontSize="16px"
+            fontWeight="500"
+            justifyContent="flex-start"
+            color="white"
+          >
+            <ChevronLeftIcon w="32px" h="32px" />
+            {'Voltar'}
+          </Link>
+        </Flex>
+
         <Flex alignSelf="stretch" alignItems="stretch" flexDir="column">
           <form onSubmit={(e) => handleSubmit(e)}>
             <FormControl isRequired>
               <InputGroup
+                _focusWithin={{
+                  svg: {
+                    color: 'var(--secondary)',
+                  },
+                }}
+              >
+                <InputLeftElement pointerEvents="none">
+                  <MoonIcon color="gray.300" />
+                </InputLeftElement>
+                <Input
+                  name="nome"
+                  type="name"
+                  placeholder="name"
+                  background="white"
+                  _focus={{
+                    borderColor: 'var(--secondary)',
+                  }}
+                />
+              </InputGroup>
+            </FormControl>
+
+            <FormControl isRequired>
+              <InputGroup
+                mt="16px"
                 _focusWithin={{
                   svg: {
                     color: 'var(--secondary)',
@@ -109,10 +154,6 @@ export default function Login() {
               </InputGroup>
             </FormControl>
 
-            <Flex marginTop="16px">
-              <Link color="white">Esqueci a senha</Link>
-            </Flex>
-
             <Button
               type="submit"
               mt="16px"
@@ -120,9 +161,6 @@ export default function Login() {
               bg="var(--secondary)"
               color="white"
             >
-              Entrar
-            </Button>
-            <Button mt="16px" width="100%" onClick={() => push('/register')}>
               Cadastrar
             </Button>
           </form>
