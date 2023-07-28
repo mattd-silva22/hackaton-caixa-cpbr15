@@ -1,5 +1,6 @@
-import Head from 'next/head'
-import MenuButton from '@/components/MenuButton'
+import Head from "next/head";
+import MenuButton from "@/components/MenuButton";
+import { Flex, Image } from "@chakra-ui/react";
 
 export default function Home() {
   return (
@@ -10,9 +11,51 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+
+      <Flex className="header-cotaniner" p="24px 16px" bgColor={"#0336BF"}>
+        <Flex className="header-content" flexDir="column" w="100%">
+          <Flex className="logo-area" h={424} w="100%" border={"1px solid red"}>
+            <svg
+              width="89"
+              height="20"
+              viewBox="0 0 89 20"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <g clip-path="url(#clip0_24_2431)">
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M27.0074 6.63578L24.721 12.3337H27.8851L27.0177 6.61259L27.0074 6.63578ZM14.895 19.7161L24.2738 0.405609H31.3649L35.319 19.7161H29.094L28.6352 17.1423H22.5957L21.2064 19.7161H14.895ZM38.2666 19.7161L40.9834 0.405609H47.2561L44.5406 19.7161H38.2666ZM79.9871 6.61259L77.6917 12.3337H80.8545L79.9871 6.61259ZM67.8644 19.7161L77.2445 0.405609H84.3343L88.2897 19.7161H82.0634L81.6059 17.1423H75.5651L74.1758 19.7161H67.8644ZM53.9967 10.6866H61.8572L67.2432 19.6065H59.3814L53.9967 10.6866Z"
+                  fill="#FBFCFE"
+                />
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M54.8139 9.31654H62.9386L69.995 0.43395H61.8702L54.8139 9.31654ZM46.6904 19.6606H54.8139L61.8702 10.6698H53.7455L46.6904 19.6606Z"
+                  fill="#FB8300"
+                />
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M49.6205 0.32572H57.2027L62.3979 9.31656H54.8145L49.6205 0.32572ZM15.0813 1.09644L14.4781 6.7763C12.1661 3.58645 6.80744 5.78776 6.38664 9.7612C5.8519 14.8044 11.0093 15.9798 13.8157 13.0103L13.2112 18.7031C12.3736 19.1142 11.5544 19.4338 10.746 19.6491C9.94186 19.8656 9.13595 19.9803 8.33637 19.9971C7.33109 20.019 6.42027 19.9133 5.59968 19.6826C4.77908 19.4557 4.03646 19.0949 3.37942 18.6077C2.11225 17.681 1.19602 16.5031 0.631645 15.0699C0.0672686 13.6316 -0.118451 12.0089 0.0738412 10.1955C0.228887 8.73787 0.595948 7.4091 1.18095 6.20405C1.76092 5.00029 2.56437 3.90478 3.58744 2.91238C4.55457 1.96639 5.6078 1.25239 6.7475 0.767794C7.88283 0.287062 9.12178 0.0305786 10.461 0.00222397C11.261 -0.0145302 12.0459 0.065382 12.8076 0.249683C13.5734 0.432697 14.3286 0.718809 15.0813 1.09644Z"
+                  fill="#FBFCFE"
+                />
+              </g>
+              <defs>
+                <clipPath id="clip0_24_2431">
+                  <rect width="88.2901" height="20" fill="white" />
+                </clipPath>
+              </defs>
+            </svg>
+          </Flex>
+
+          <Flex className="profile-area"></Flex>
+        </Flex>
+      </Flex>
       <main>
         <MenuButton icon={<></>} title="Ola" />
       </main>
     </>
-  )
+  );
 }
