@@ -1,1 +1,1 @@
-{"users":[{"id":"18ed26ee-3f5a-4456-9c19-39c1d419b17c","name":"Amir","email":"amir.dantas@hotmail.com"}]}
+{"expenses":[{"id":"2545c0ad-1eb1-4a0b-8eba-45dd28c0acc3","expenses":[],"incomes":[]},{"id":"2545c0ad-1eb1-4a0b-8eba-45dd28c0acc3","expenses":[{"date":"2023-07-28T23:40:03.916Z","value":"5000"}],"incomes":[]}]}
