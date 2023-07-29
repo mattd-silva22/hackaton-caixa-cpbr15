@@ -27,12 +27,11 @@ export default async function handler(
     })
 
     if (!caixinha) {
-      const newUserExpenses = await database.insert(TABLE_NAME, {
+      const newCaixinha = await database.insert(TABLE_NAME, {
         id,
-        incomes: [],
-        expenses: [],
+        caixinhas: [],
       })
-      return res.status(201).json(newUserExpenses)
+      return res.status(201).json(newCaixinha)
     }
 
     return res.status(200).json(caixinha)
