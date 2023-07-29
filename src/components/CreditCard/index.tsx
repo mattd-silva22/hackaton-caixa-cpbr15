@@ -62,6 +62,21 @@ export default function CreditCard() {
 
         <ArrowRight color={"#fff"} />
       </Flex>
+
+      <Flex flexDir={"column"}>
+        <Text fontSize={"12px"} color="var(--tipograthy-2, #D9D9D9);">
+          Fatura atual
+        </Text>
+        <Text fontSize={"20px"} fontWeight={"bold"} color="#fff">
+          R$ 3.000,00
+        </Text>
+        <Text fontSize={"12px"} color="var(--tipograthy-2, #D9D9D9);">
+          Limite disponível R$ 100,00
+        </Text>
+        <Text fontSize={"12px"} color="var(--tipograthy-2, #D9D9D9);">
+          Fecha em 01 AGO
+        </Text>
+      </Flex>
     </Flex>
   );
 }

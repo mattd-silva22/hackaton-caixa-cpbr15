@@ -1,4 +1,3 @@
-
 import Head from "next/head";
 import MenuButton from "@/components/MenuButton";
 import { Avatar, AvatarBadge, Flex, Image, Text } from "@chakra-ui/react";
@@ -6,7 +5,6 @@ import { Eye, Heart, Sun } from "react-feather";
 import FinancialHealth from "@/components/FinancialHealth";
 import OurBalance from "@/components/OurBalance";
 import CreditCard from "@/components/CreditCard";
-
 
 export default function Home() {
   return (
@@ -18,12 +16,12 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-
       <Flex
         className="header-cotaniner"
         p="24px 16px"
         bgColor={"#000"}
         w="100%"
+        fontFamily={"Lexend"}
       >
         <Flex className="header-content" flexDir="column" w="100%" gap={"24px"}>
           <Flex className="logo-area">
@@ -126,13 +124,10 @@ export default function Home() {
         </Flex>
       </Flex>
       <Flex bgColor={"#000"} flexDir={"column"} gap={"20px"} p="0 16px">
-        <FinancialHealth />
-
         <OurBalance />
-
+        <FinancialHealth />
         <CreditCard />
       </Flex>
-
     </>
   );
 }
