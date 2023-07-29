@@ -1,16 +1,18 @@
-import fs from 'node:fs/promises'
+import database from './inicialize-firebase'
+import { ref, set, get, child } from 'firebase/database'
 
-// const databasePath = new URL("../db.json", import.meta.url);
-
-const databasePath = './src/pages/api/database/db.json'
-
+const dbRef = ref(database)
 export class Database {
   #database = {}
 
   constructor() {
-    fs.readFile(databasePath, 'utf8')
-      .then((data) => {
-        this.#database = JSON.parse(data)
+    get(child(dbRef, 'teste/'))
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          this.#database = snapshot.val()
+        } else {
+          console.log('No data available')
+        }
       })
       .catch(() => {
         this.#persist()
@@ -18,13 +20,13 @@ export class Database {
   }
 
   #persist() {
-    fs.writeFile(databasePath, JSON.stringify(this.#database))
+    set(ref(database, 'teste/'), this.#database)
   }
 
   async select(table, search) {
     try {
-      const response = await fs.readFile(databasePath, 'utf8')
-      this.#database = JSON.parse(response)
+      const response = await get(child(dbRef, 'teste/'))
+      this.#database = response.val()
 
       const data = this.#database[table] ?? []
 
@@ -44,8 +46,8 @@ export class Database {
 
   async selectOne(table, search) {
     try {
-      const response = await fs.readFile(databasePath, 'utf8')
-      this.#database = JSON.parse(response)
+      const response = await get(child(dbRef, 'teste/'))
+      this.#database = response.val()
 
       const data = this.#database[table] ?? []
 
@@ -65,8 +67,8 @@ export class Database {
 
   async insert(table, data) {
     try {
-      const response = await fs.readFile(databasePath, 'utf8')
-      this.#database = JSON.parse(response)
+      const response = await get(child(dbRef, 'teste/'))
+      this.#database = response.val()
 
       if (Array.isArray(this.#database[table])) {
         this.#database[table].push(data)
@@ -84,8 +86,8 @@ export class Database {
 
   async update(table, id, data) {
     try {
-      const response = await fs.readFile(databasePath, 'utf8')
-      this.#database = JSON.parse(response)
+      const response = await get(child(dbRef, 'teste/'))
+      this.#database = response.val()
 
       const rowIndex = this.#database[table].findIndex((row) => row.id === id)
 
@@ -106,8 +108,8 @@ export class Database {
 
   async delete(table, id) {
     try {
-      const response = await fs.readFile(databasePath, 'utf8')
-      this.#database = JSON.parse(response)
+      const response = await get(child(dbRef, 'teste/'))
+      this.#database = response.val()
 
       const rowIndex = this.#database[table].findIndex((item) => item.id === id)
 
