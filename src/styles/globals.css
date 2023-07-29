@@ -1,5 +1,4 @@
 :root {
-  
 }
 
 * {
@@ -17,15 +16,12 @@ body {
 }
 
 html {
-
   background: #000;
 }
 
 body {
-
   background: #fff;
 }
-
 
 a {
   color: inherit;
