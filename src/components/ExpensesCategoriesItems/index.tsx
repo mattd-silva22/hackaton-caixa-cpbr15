@@ -16,7 +16,7 @@ const ExpensesCategoriesItems: React.FC<ExpensesCategoriesItemsProps> = ({
   numberOfTransactions = 0,
   imgPath,
 }) => {
-  const isPositive = limit - moneySpent > 0
+  const isPositive = limit - moneySpent >= 0
 
   const value = isPositive
     ? (moneySpent / limit) * 100
