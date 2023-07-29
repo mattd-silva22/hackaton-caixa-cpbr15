@@ -5,7 +5,7 @@ import React from 'react'
 
 const HeadLogo: React.FC = () => {
   return (
-    <Flex>
+    <Flex alignSelf="flex-start">
       <Image src="/head-logo.svg" w="88px" />
     </Flex>
   )

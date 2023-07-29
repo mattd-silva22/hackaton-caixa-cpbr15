@@ -5,7 +5,7 @@ import {
   useEffect,
   useState,
 } from 'react'
-import axios from 'axios'
+import axios, { AxiosResponse } from 'axios'
 
 type AuthContextType = {
   user: User | null
@@ -25,7 +25,7 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
   const [user, setUser] = useState<User | null>(null)
 
   const signIn = async ({ email, password }: SignInCredentials) => {
-    const user: User = await axios.post(
+    const response: AxiosResponse<User> = await axios.post(
       `${process.env.API_PATH ?? ''}api/authenticate`,
       {
         email,
@@ -33,11 +33,11 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
       },
     )
 
-    setUser(user)
+    setUser(response.data)
   }
 
   const signUp = async ({ email, password, name }: SignUpCredentials) => {
-    const user: User = await axios.post(
+    const response: AxiosResponse<User> = await axios.post(
       `${process.env.API_PATH ?? ''}api/users`,
       {
         email,
@@ -46,7 +46,7 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
       },
     )
 
-    setUser(user)
+    setUser(response.data)
   }
 
   return (

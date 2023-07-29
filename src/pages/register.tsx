@@ -35,7 +35,7 @@ export default function Register() {
     const password = event.currentTarget.password.value
 
     try {
-      signUp({
+      await signUp({
         name,
         email,
         password,

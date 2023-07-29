@@ -7,7 +7,7 @@ import {
   useState,
 } from 'react'
 import { useAuth } from './AuthProvider'
-import axios from 'axios'
+import axios, { AxiosResponse } from 'axios'
 
 type ExpensesData = {
   [key in CategoriesEnum]: number
@@ -18,6 +18,7 @@ type ExpensesContextType = {
   limitsByIncome: ExpensesData
   expenses: ExpensesData
   getFinanceHealth: () => number
+  getSaldo: () => number
 }
 
 type ExpensesContextProviderProps = {
@@ -40,11 +41,13 @@ export function ExpensesContextProvider(props: ExpensesContextProviderProps) {
 
   useEffect(() => {
     async function getUserExpenses(id: string) {
-      const response: UserExpenses = await axios.get(
+      const response: AxiosResponse<UserExpenses> = await axios.get(
         `${process.env.APIT_PATH ?? ''}/api/expenses?id=${id}`,
       )
 
-      setUserExpenses(response)
+      console.log(response.data)
+
+      setUserExpenses(response.data)
     }
 
     if (user) {
@@ -94,6 +97,10 @@ export function ExpensesContextProvider(props: ExpensesContextProviderProps) {
     return limitsWithValues
   }, [])
 
+  function getSaldo() {
+    return income - Object.values(expenses).reduce((sum, item) => item + sum, 0)
+  }
+
   function getFinanceHealth() {
     if (!userExpenses || !userExpenses.expenses.length) {
       return 100
@@ -121,6 +128,7 @@ export function ExpensesContextProvider(props: ExpensesContextProviderProps) {
         limitsByIncome,
         getFinanceHealth,
         expenses,
+        getSaldo,
       }}
     >
       {props.children}

@@ -2,13 +2,13 @@ import { useExpensesContext } from '@/Contexts/ExpensesProvider'
 import ExpensesCategoriesItems from '@/components/ExpensesCategoriesItems'
 import ExpensesHealthCard from '@/components/ExpensesHealthCard'
 import HeadBackButton from '@/components/HeadBackButton'
-import { Flex, Text } from '@chakra-ui/react'
+import { Button, Flex, Text } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
 import React, { useMemo } from 'react'
 import { Pie, PieChart, Cell, ResponsiveContainer } from 'recharts'
 
 const Expenses: React.FC = () => {
-  const { back } = useRouter()
+  const { back, push } = useRouter()
   const { expenses, getFinanceHealth, limitsByIncome } = useExpensesContext()
 
   const pieData = useMemo(() => {
@@ -92,6 +92,14 @@ const Expenses: React.FC = () => {
               </PieChart>
             </ResponsiveContainer>
           </Flex>
+
+          <Button width="100%" onClick={() => push('/register-income')}>
+            Registrar deposito
+          </Button>
+
+          <Button width="100%" onClick={() => push('/register-expense')}>
+            Registrar despesa
+          </Button>
 
           <ExpensesHealthCard healthValue={getFinanceHealth()} />
 

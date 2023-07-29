@@ -22,13 +22,20 @@ export default async function handler(
   if (req.method === 'GET') {
     const { id } = req.query
 
-    const userExpenses = database.selectOne(TABLE_NAME, {
+    const userExpenses = await database.selectOne(TABLE_NAME, {
       id,
     })
 
-    return res.status(200).json({
-      userExpenses,
-    })
+    if (!userExpenses) {
+      const newUserExpenses = await database.insert(TABLE_NAME, {
+        id,
+        incomes: [],
+        expenses: [],
+      })
+      return res.status(201).json(newUserExpenses)
+    }
+
+    return res.status(200).json(userExpenses)
   }
 
   if (req.method === 'POST') {

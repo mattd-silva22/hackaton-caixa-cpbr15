@@ -17,7 +17,7 @@ export default async function handler(
   if (req.method === 'POST') {
     const { email, password } = req.body
 
-    const users: User[] = database.select('users', {
+    const users: User[] = await database.select('users', {
       email,
     })
 

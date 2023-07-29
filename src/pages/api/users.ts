@@ -36,7 +36,7 @@ export default async function handler(
   if (req.method === 'POST') {
     const { email, name, password } = req.body
 
-    const users = database.select('users', {
+    const users = await database.select('users', {
       email,
     })
 
@@ -55,9 +55,9 @@ export default async function handler(
       password_hash: passwordHash,
     }
 
-    database.insert('users', user)
+    const newUser: User = await database.insert('users', user)
 
-    return res.status(201).json({ name, email })
+    return res.status(201).json({ name, email, id: newUser.id })
   }
 
   if (req.method === 'PATCH') {

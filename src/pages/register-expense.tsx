@@ -3,38 +3,41 @@ import {
   Button,
   Flex,
   FormControl,
-  Image,
   Input,
   InputGroup,
   InputLeftElement,
-  Link,
+  Select,
+  Text,
 } from '@chakra-ui/react'
-import { EmailIcon, LockIcon } from '@chakra-ui/icons'
+import { MinusIcon } from '@chakra-ui/icons'
 import { FormEvent } from 'react'
 import { useAuth } from '@/Contexts/AuthProvider'
 import { useRouter } from 'next/router'
+import HeadBackButton from '@/components/HeadBackButton'
+import axios from 'axios'
 
-export default function Login() {
-  const { signIn, user } = useAuth()
-  const { push } = useRouter()
+export default function RegisterExpense() {
+  const { user } = useAuth()
+  const { push, back } = useRouter()
 
-  if (user) {
-    push('/')
+  if (!user) {
+    push('/login')
   }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
 
-    const email = event.currentTarget.email.value
-    const password = event.currentTarget.password.value
+    const expense = event.currentTarget.expense.value
+    const category = event.currentTarget.category.value
 
     try {
-      await signIn({
-        email,
-        password,
+      await axios.post(`${process.env.API_PATH ?? ''}/api/expense`, {
+        id: user?.id as string,
+        value: expense,
+        category,
       })
     } catch (error) {
-      alert('Não foi possivel fazer login')
+      alert('Não foi possivel registrar deposito')
     }
   }
 
@@ -55,35 +58,20 @@ export default function Login() {
         padding="36px"
         alignItems="center"
       >
-        <Flex height="120px">
-          <Image src="/login/logo-branca.svg" width="200px" />
-        </Flex>
+        {/* <HeadLogo /> */}
+        <HeadBackButton onClick={() => back()} />
+
+        <Text
+          color="var(--tipograthy-1)"
+          fontWeight={700}
+          fontSize="16px"
+          alignSelf="center"
+        >
+          Registrar despesa
+        </Text>
 
         <Flex alignSelf="stretch" alignItems="stretch" flexDir="column">
           <form onSubmit={(e) => handleSubmit(e)}>
-            <FormControl isRequired>
-              <InputGroup
-                _focusWithin={{
-                  svg: {
-                    color: 'var(--secondary)',
-                  },
-                }}
-              >
-                <InputLeftElement pointerEvents="none">
-                  <EmailIcon color="gray.300" />
-                </InputLeftElement>
-                <Input
-                  name="email"
-                  type="email"
-                  placeholder="Email"
-                  background="white"
-                  _focus={{
-                    borderColor: 'var(--secondary)',
-                  }}
-                />
-              </InputGroup>
-            </FormControl>
-
             <FormControl isRequired>
               <InputGroup
                 mt="16px"
@@ -94,12 +82,12 @@ export default function Login() {
                 }}
               >
                 <InputLeftElement pointerEvents="none">
-                  <LockIcon color="gray.300" />
+                  <MinusIcon color="gray.300" />
                 </InputLeftElement>
                 <Input
-                  name="password"
-                  type="password"
-                  placeholder="Senha"
+                  name="income"
+                  type="number"
+                  placeholder="R$ XXXX"
                   background="white"
                   _focus={{
                     borderColor: 'var(--secondary)',
@@ -109,21 +97,24 @@ export default function Login() {
               </InputGroup>
             </FormControl>
 
-            <Flex marginTop="16px">
-              <Link color="white">Esqueci a senha</Link>
-            </Flex>
+            <FormControl isRequired>
+              <Select placeholder="Categoria" name="category">
+                <option value={CategoriesEnum.FOOD}>Alimentação</option>
+                <option value={CategoriesEnum.HEALTH}>Saúde</option>
+                <option value={CategoriesEnum.TRANSPORT}>Transporte</option>
+                <option value={CategoriesEnum.HYGIEANE}>Higiene</option>
+                <option value={CategoriesEnum.LEISURE}>Lazer</option>
+              </Select>
+            </FormControl>
 
             <Button
               type="submit"
-              mt="16px"
+              mt="24px"
               width="100%"
               bg="var(--secondary)"
               color="white"
             >
-              Entrar
-            </Button>
-            <Button mt="16px" width="100%" onClick={() => push('/register')}>
-              Cadastrar
+              Registrar
             </Button>
           </form>
         </Flex>

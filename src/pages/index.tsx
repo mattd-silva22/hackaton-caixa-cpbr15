@@ -1,14 +1,20 @@
-
-import Head from "next/head";
-import MenuButton from "@/components/MenuButton";
-import { Avatar, AvatarBadge, Flex, Image, Text } from "@chakra-ui/react";
-import { Eye, Heart, Sun } from "react-feather";
-import FinancialHealth from "@/components/FinancialHealth";
-import OurBalance from "@/components/OurBalance";
-import CreditCard from "@/components/CreditCard";
-
+import Head from 'next/head'
+import MenuButton from '@/components/MenuButton'
+import { Avatar, AvatarBadge, Flex, Image, Text } from '@chakra-ui/react'
+import { Eye, Heart, Sun } from 'react-feather'
+import FinancialHealth from '@/components/FinancialHealth'
+import OurBalance from '@/components/OurBalance'
+import CreditCard from '@/components/CreditCard'
+import { useAuth } from '@/Contexts/AuthProvider'
+import { useRouter } from 'next/router'
 
 export default function Home() {
+  const { user } = useAuth()
+  const { push } = useRouter()
+
+  if (!user) {
+    push('/login')
+  }
   return (
     <>
       <Head>
@@ -18,14 +24,13 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-
       <Flex
         className="header-cotaniner"
         p="24px 16px"
-        bgColor={"#000"}
+        bgColor={'#000'}
         w="100%"
       >
-        <Flex className="header-content" flexDir="column" w="100%" gap={"24px"}>
+        <Flex className="header-content" flexDir="column" w="100%" gap={'24px'}>
           <Flex className="logo-area">
             <svg
               width="89"
@@ -65,74 +70,73 @@ export default function Home() {
           <Flex
             className="profile-area"
             color="#fff"
-            justifyContent={"space-between"}
-            alignItems={"center"}
+            justifyContent={'space-between'}
+            alignItems={'center'}
           >
             <Flex gap="16px">
               <Avatar
-                borderRadius={"10px"}
+                borderRadius={'10px'}
                 src="https://br.web.img2.acsta.net/pictures/16/05/17/17/28/208580.jpg"
               />
 
-              <Flex flexDir={"column"} w="80%">
-                <Text fontSize={"16px"} fontWeight={"bold"}>
+              <Flex flexDir={'column'} w="80%">
+                <Text fontSize={'16px'} fontWeight={'bold'}>
                   Alexandre Shyjada
                 </Text>
                 <Flex
-                  fontSize={"12px"}
+                  fontSize={'12px'}
                   flexDir="row"
                   w="100%"
-                  gap={"4px"}
-                  alignItems={"center"}
-                  color={"#FBFCFE"}
+                  gap={'4px'}
+                  alignItems={'center'}
+                  color={'#FBFCFE'}
                 >
                   <Text>Bom dia</Text>
-                  <Sun size={"16px"} />
+                  <Sun size={'16px'} />
                 </Flex>
               </Flex>
             </Flex>
 
             <Flex
-              padding={"8px"}
-              background={"rgba(255, 255, 255, 0.10)"}
-              align={"center"}
-              justify={"center"}
+              padding={'8px'}
+              background={'rgba(255, 255, 255, 0.10)'}
+              align={'center'}
+              justify={'center'}
               h="40px"
               w="40px"
-              borderRadius={"5px"}
+              borderRadius={'5px'}
             >
               <Eye size="24px" />
             </Flex>
           </Flex>
 
-          <Flex className="balance" color={"#fff"} flexDir={"column"}>
+          <Flex className="balance" color={'#fff'} flexDir={'column'}>
             <Text fontSize="14px" lineHeight="22px">
               Seu Saldo
             </Text>
-            <Flex gap={"2px"}>
+            <Flex gap={'2px'}>
               <Text
                 className="balance-area"
-                fontSize={"28px"}
+                fontSize={'28px'}
                 lineHeight="36px"
-                fontWeight={"bold"}
+                fontWeight={'bold'}
               >
                 R$
               </Text>
-              <Text fontSize={"28px"} lineHeight="36px" fontWeight={"bold"}>
+              <Text fontSize={'28px'} lineHeight="36px" fontWeight={'bold'}>
                 534,23
               </Text>
             </Flex>
           </Flex>
         </Flex>
       </Flex>
-      <Flex bgColor={"#000"} flexDir={"column"} gap={"20px"} p="0 16px">
+      <Flex bgColor={'#000'} flexDir={'column'} gap={'20px'} p="0 16px">
         <FinancialHealth />
 
         <OurBalance />
 
         <CreditCard />
       </Flex>
-
     </>
-  );
+  )
 }
