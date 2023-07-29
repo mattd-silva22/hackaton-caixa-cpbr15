@@ -2,6 +2,9 @@ import { Flex, Text, Image, Progress } from "@chakra-ui/react";
 import React from "react";
 import { ArrowRight } from "react-feather";
 
+interface ReawardsProps {
+  totalPts: number;
+}
 export default function Rewards() {
   const ptsLeft = 456;
   return (
