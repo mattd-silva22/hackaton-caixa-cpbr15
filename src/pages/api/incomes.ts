@@ -14,6 +14,8 @@ type Error = {
   message: string
 }
 
+const TABLE_NAME = 'incomes'
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<any | Error>,
@@ -28,38 +30,37 @@ export default async function handler(
   }
 
   if (req.method === 'POST') {
-    const { id, value, category } = req.body
+    const { id, value } = req.body
 
-    let userExpenses: UserExpenses[] = database.select('expenses', {
+    let userExpenses: UserExpenses[] = database.select(TABLE_NAME, {
       id,
     })
 
     if (!userExpenses[0]) {
-      database.insert('expenses', {
+      database.insert(TABLE_NAME, {
         id,
         expenses: [],
         incomes: [],
       })
     }
 
-    userExpenses = database.select('expenses', {
+    userExpenses = database.select(TABLE_NAME, {
       id,
     })
 
-    const expense = {
+    const income = {
       date: new Date(),
       value,
-      category,
     }
 
     const userExpense = {
       ...userExpenses[0],
-      expenses: userExpenses[0].expenses
-        .concat(expense)
+      incomes: userExpenses[0].incomes
+        .concat(income)
         .sort((a, b) => b.date.getTime() - a.date.getTime()),
     }
 
-    database.insert('expenses', userExpense)
+    database.insert(TABLE_NAME, userExpense)
 
     return res.status(201).json({ userExpense })
   }

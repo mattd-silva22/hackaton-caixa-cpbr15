@@ -3,6 +3,8 @@ enum CategoriesEnum {
   TRANSPORT = 'TRANSPORT',
   HEALTH = 'HEALTH',
   HYGIEANE = 'HYGIEANE',
+  LEISURE = 'LEISURE',
+  OTHERS = 'OTHERS',
 }
 
 interface Expenses {

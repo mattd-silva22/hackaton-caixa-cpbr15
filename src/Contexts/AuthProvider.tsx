@@ -19,20 +19,26 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
   const [user, setUser] = useState<User | null>(null)
 
   const signIn = async ({ email, password }: SignInCredentials) => {
-    const user: User = await axios.post(`api/authenticate`, {
-      email,
-      password,
-    })
+    const user: User = await axios.post(
+      `${process.env.API_PATH ?? ''}api/authenticate`,
+      {
+        email,
+        password,
+      },
+    )
 
     setUser(user)
   }
 
   const signUp = async ({ email, password, name }: SignUpCredentials) => {
-    const user: User = await axios.post(`api/users`, {
-      email,
-      name,
-      password,
-    })
+    const user: User = await axios.post(
+      `${process.env.API_PATH ?? ''}api/users`,
+      {
+        email,
+        name,
+        password,
+      },
+    )
 
     setUser(user)
   }

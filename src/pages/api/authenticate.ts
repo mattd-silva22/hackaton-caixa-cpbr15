@@ -21,7 +21,6 @@ export default async function handler(
       email,
     })
 
-    console.log(users)
     const userExists = users[0]
 
     if (!userExists) {
