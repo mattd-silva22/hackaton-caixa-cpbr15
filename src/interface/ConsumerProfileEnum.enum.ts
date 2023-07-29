@@ -1,0 +1,14 @@
+export enum ConsumerProfileEnum {
+  AVENTUREIRO = 'AVENTUREIRO',
+  CONSERVADOR = 'CONSERVADOR',
+  EQUILIBRADO = 'EQUILIBRADO',
+  VISIONARIO = 'VISIONARIO',
+}
+
+export enum CategoriesEnum {
+  FOOD = 'FOOD',
+  TRANSPORT = 'TRANSPORT',
+  HEALTH = 'HEALTH',
+  HYGIENE = 'HYGIENE',
+  LEISURE = 'LEISURE',
+}

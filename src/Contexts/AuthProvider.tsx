@@ -1,10 +1,11 @@
 import { createContext, ReactNode, useContext, useState } from 'react'
-import axios from 'axios'
+import axios, { AxiosResponse } from 'axios'
 
 type AuthContextType = {
   user: User | null
   signIn: (payload: SignInCredentials) => void
   signUp: (payload: SignUpCredentials) => void
+  patchUser: (id: string, payload: Partial<User>) => void
 }
 
 type AuthContextProviderProps = {
@@ -19,7 +20,7 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
   const [user, setUser] = useState<User | null>(null)
 
   const signIn = async ({ email, password }: SignInCredentials) => {
-    const user: User = await axios.post(
+    const response: AxiosResponse<User> = await axios.post(
       `${process.env.API_PATH ?? ''}api/authenticate`,
       {
         email,
@@ -27,11 +28,11 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
       },
     )
 
-    setUser(user)
+    setUser(response.data)
   }
 
   const signUp = async ({ email, password, name }: SignUpCredentials) => {
-    const user: User = await axios.post(
+    const response: AxiosResponse<User> = await axios.post(
       `${process.env.API_PATH ?? ''}api/users`,
       {
         email,
@@ -40,7 +41,18 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
       },
     )
 
-    setUser(user)
+    setUser(response.data)
+  }
+
+  const patchUser = async (id: string, payload: Partial<User>) => {
+    const response: AxiosResponse<User> = await axios.patch(
+      `${process.env.API_PATH ?? ''}api/users?id=${id}`,
+      {
+        ...payload,
+      },
+    )
+
+    setUser(response.data)
   }
 
   return (
@@ -49,6 +61,7 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
         signUp,
         user,
         signIn,
+        patchUser,
       }}
     >
       {props.children}

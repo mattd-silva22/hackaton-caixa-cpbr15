@@ -2,7 +2,15 @@ import { Flex, Text } from "@chakra-ui/react";
 import React from "react";
 import { ArrowRight } from "react-feather";
 
-export default function OurBalance() {
+interface BalanceProps {
+  income: number;
+  outcome: number;
+  bank: number;
+  hideSaldo: boolean;
+}
+export default function OurBalance(props: BalanceProps) {
+  const { outcome, income, hideSaldo, bank } = props;
+
   return (
     <>
       <Flex
@@ -71,7 +79,7 @@ export default function OurBalance() {
                   R$
                 </Text>
                 <Text fontSize={"28px"} lineHeight="36px" fontWeight={"bold"}>
-                  534,23
+                  {hideSaldo ? "*****" : `${outcome}`}
                 </Text>
               </Flex>
             </Flex>
@@ -104,7 +112,7 @@ export default function OurBalance() {
                   R$
                 </Text>
                 <Text fontSize={"28px"} lineHeight="36px" fontWeight={"bold"}>
-                  534,23
+                  {hideSaldo ? "*****" : `${income}`}
                 </Text>
               </Flex>
             </Flex>
@@ -137,7 +145,7 @@ export default function OurBalance() {
                   R$
                 </Text>
                 <Text fontSize={"28px"} lineHeight="36px" fontWeight={"bold"}>
-                  534,23
+                  {hideSaldo ? "*****" : `${bank}`}
                 </Text>
               </Flex>
             </Flex>
