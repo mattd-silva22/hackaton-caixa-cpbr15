@@ -62,7 +62,7 @@ export default async function handler(
     const userExpense = {
       ...userExpenses[0],
       expenses: userExpenses[0].expenses ?? [],
-      incomes: userExpenses[0]?.incomes.concat(income).sort((a, b) => {
+      incomes: (userExpenses[0]?.incomes|| []).concat(income).sort((a, b) => {
         const dateA = new Date(a.date)
         const dateB = new Date(b.date)
         return dateB.getTime() - dateA.getTime()

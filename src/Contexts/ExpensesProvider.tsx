@@ -105,7 +105,7 @@ export function ExpensesContextProvider(props: ExpensesContextProviderProps) {
   }, [user?.["consumer-profile"]]);
 
   const income = useMemo(() => {
-    if (!userExpenses) {
+    if (!userExpenses || !userExpenses.incomes) {
       return 0;
     }
 
@@ -121,7 +121,7 @@ export function ExpensesContextProvider(props: ExpensesContextProviderProps) {
       LEISURE: 0,
     };
 
-    if (!userExpenses) {
+    if (!userExpenses || !userExpenses.expenses) {
       return expenses;
     }
 
@@ -163,7 +163,7 @@ export function ExpensesContextProvider(props: ExpensesContextProviderProps) {
   }
 
   function getFinanceHealth() {
-    if (!userExpenses || !userExpenses.expenses.length) {
+    if (!userExpenses || !userExpenses.expenses || !userExpenses.expenses.length) {
       return 100;
     }
 
