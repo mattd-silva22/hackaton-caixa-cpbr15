@@ -13,10 +13,11 @@ import { FormEvent } from 'react'
 import { useAuth } from '@/Contexts/AuthProvider'
 import { useRouter } from 'next/router'
 import HeadBackButton from '@/components/HeadBackButton'
-import axios from 'axios'
+import { useExpensesContext } from '@/Contexts/ExpensesProvider'
 
 export default function RegisterIncome() {
   const { user } = useAuth()
+  const { registerIncome } = useExpensesContext()
   const { push, back } = useRouter()
 
   if (!user) {
@@ -29,10 +30,9 @@ export default function RegisterIncome() {
     const income = event.currentTarget.income.value
 
     try {
-      await axios.post(`${process.env.API_PATH ?? ''}/api/income`, {
-        id: user?.id as string,
-        value: income,
-      })
+      await registerIncome(user?.id as string, income)
+
+      push('/expenses')
     } catch (error) {
       alert('Não foi possivel registrar deposito')
     }

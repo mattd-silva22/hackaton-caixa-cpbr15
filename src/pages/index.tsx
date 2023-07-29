@@ -131,7 +131,7 @@ export default function Home() {
         </Flex>
       </Flex>
       <Flex bgColor={'#000'} flexDir={'column'} gap={'20px'} p="0 16px">
-        <FinancialHealth />
+        <FinancialHealth onClick={() => push('/expenses')} />
 
         <OurBalance />
 

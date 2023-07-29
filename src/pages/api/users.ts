@@ -61,8 +61,11 @@ export default async function handler(
   }
 
   if (req.method === 'PATCH') {
-    console.log(typeof req.body)
-    return res.status(201).json({ name: 'John Doe' })
+    const { id } = req.query
+
+    const user = await database.update('users', id, req.body)
+
+    return res.status(200).json(user)
   }
 
   if (req.method === 'DELETE') {

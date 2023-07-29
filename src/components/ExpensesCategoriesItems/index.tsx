@@ -4,6 +4,7 @@ import React from 'react'
 interface ExpensesCategoriesItemsProps {
   moneySpent: number
   limit: number
+  limitOfTotal: number
   numberOfTransactions?: number
   title: string
   imgPath: string
@@ -13,6 +14,7 @@ const ExpensesCategoriesItems: React.FC<ExpensesCategoriesItemsProps> = ({
   title,
   limit,
   moneySpent,
+  limitOfTotal,
   numberOfTransactions = 0,
   imgPath,
 }) => {
@@ -61,7 +63,15 @@ const ExpensesCategoriesItems: React.FC<ExpensesCategoriesItemsProps> = ({
             </Text>
           </Flex>
 
-          <Flex>
+          <Flex gap="4px">
+            <Text
+              color={isPositive ? 'var(--tipograthy-1)' : 'var(--danger)'}
+              fontWeight={300}
+              fontSize="12px"
+              alignSelf="flex-end"
+            >
+              {limitOfTotal}%
+            </Text>
             <Text
               color={isPositive ? 'var(--tipograthy-1)' : 'var(--danger)'}
               fontWeight={700}

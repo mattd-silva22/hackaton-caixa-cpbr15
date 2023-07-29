@@ -35,9 +35,7 @@ export default async function handler(
       return res.status(401).json({ code: 401, message: 'Wrong password.' })
     }
 
-    const { email: userEmail, name, id } = userExists
-
-    return res.status(200).json({ name, email: userEmail, id })
+    return res.status(200).json({ ...userExists, password_hash: undefined })
   }
 
   const code = 400

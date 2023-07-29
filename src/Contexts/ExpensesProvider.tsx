@@ -8,6 +8,7 @@ import {
 } from 'react'
 import { useAuth } from './AuthProvider'
 import axios, { AxiosResponse } from 'axios'
+import { CategoriesEnum } from '@/interface/ConsumerProfileEnum.enum'
 
 type ExpensesData = {
   [key in CategoriesEnum]: number
@@ -19,6 +20,13 @@ type ExpensesContextType = {
   expenses: ExpensesData
   getFinanceHealth: () => number
   getSaldo: () => number
+  limits: ExpensesData
+  registerIncome: (id: string, value: number) => Promise<void>
+  registerExpense: (
+    id: string,
+    value: number,
+    category: CategoriesEnum,
+  ) => Promise<void>
 }
 
 type ExpensesContextProviderProps = {
@@ -26,14 +34,6 @@ type ExpensesContextProviderProps = {
 }
 
 export const ExpensesContext = createContext({} as ExpensesContextType)
-
-const limits = {
-  FOOD: 20,
-  TRANSPORT: 20,
-  HEALTH: 20,
-  HYGIEANE: 20,
-  LEISURE: 20,
-}
 
 export function ExpensesContextProvider(props: ExpensesContextProviderProps) {
   const { user } = useAuth()
@@ -55,6 +55,55 @@ export function ExpensesContextProvider(props: ExpensesContextProviderProps) {
     }
   }, [user])
 
+  const limits = useMemo(() => {
+    switch (user?.['consumer-profile']) {
+      case 'AVENTUREIRO':
+        return {
+          FOOD: 30,
+          TRANSPORT: 25,
+          HEALTH: 10,
+          HYGIENE: 10,
+          LEISURE: 25,
+        }
+
+      case 'CONSERVADOR':
+        return {
+          FOOD: 20,
+          TRANSPORT: 15,
+          HEALTH: 25,
+          HYGIENE: 20,
+          LEISURE: 20,
+        }
+
+      case 'EQUILIBRADO':
+        return {
+          FOOD: 25,
+          TRANSPORT: 20,
+          HEALTH: 20,
+          HYGIENE: 20,
+          LEISURE: 15,
+        }
+
+      case 'VISIONARIO':
+        return {
+          FOOD: 15,
+          TRANSPORT: 20,
+          HEALTH: 15,
+          HYGIENE: 15,
+          LEISURE: 35,
+        }
+
+      default:
+        return {
+          FOOD: 20,
+          TRANSPORT: 20,
+          HEALTH: 20,
+          HYGIENE: 20,
+          LEISURE: 20,
+        }
+    }
+  }, [user?.['consumer-profile']])
+
   const income = useMemo(() => {
     if (!userExpenses) {
       return 0
@@ -68,7 +117,7 @@ export function ExpensesContextProvider(props: ExpensesContextProviderProps) {
       FOOD: 0,
       TRANSPORT: 0,
       HEALTH: 0,
-      HYGIEANE: 0,
+      HYGIENE: 0,
       LEISURE: 0,
     }
 
@@ -90,7 +139,7 @@ export function ExpensesContextProvider(props: ExpensesContextProviderProps) {
       FOOD: expenses.FOOD * limits.FOOD,
       TRANSPORT: expenses.TRANSPORT * limits.TRANSPORT,
       HEALTH: expenses.HEALTH * limits.HEALTH,
-      HYGIEANE: expenses.HYGIEANE * limits.HYGIEANE,
+      HYGIENE: expenses.HYGIENE * limits.HYGIENE,
       LEISURE: expenses.LEISURE * limits.LEISURE,
     }
 
@@ -121,6 +170,40 @@ export function ExpensesContextProvider(props: ExpensesContextProviderProps) {
     return health
   }
 
+  async function registerIncome(id: string, income: number) {
+    await axios.post(`${process.env.API_PATH ?? ''}/api/incomes`, {
+      id,
+      value: income,
+    })
+
+    const response: AxiosResponse<UserExpenses> = await axios.get(
+      `${process.env.API_PATH ?? ''}/api/expenses?id=${id}`,
+    )
+
+    console.log(response.data)
+
+    setUserExpenses(response.data)
+  }
+
+  async function registerExpense(
+    id: string,
+    value: number,
+    category: CategoriesEnum,
+  ) {
+    await axios.post(`${process.env.API_PATH ?? ''}/api/incomes`, {
+      id,
+      value: income,
+    })
+
+    const response: AxiosResponse<UserExpenses> = await axios.get(
+      `${process.env.API_PATH ?? ''}/api/expenses?id=${id}`,
+    )
+
+    console.log(response.data)
+
+    setUserExpenses(response.data)
+  }
+
   return (
     <ExpensesContext.Provider
       value={{
@@ -129,6 +212,9 @@ export function ExpensesContextProvider(props: ExpensesContextProviderProps) {
         getFinanceHealth,
         expenses,
         getSaldo,
+        limits,
+        registerIncome,
+        registerExpense,
       }}
     >
       {props.children}

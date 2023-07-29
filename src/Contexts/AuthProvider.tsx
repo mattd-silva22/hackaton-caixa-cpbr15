@@ -1,16 +1,11 @@
-import {
-  createContext,
-  ReactNode,
-  useContext,
-  useEffect,
-  useState,
-} from 'react'
+import { createContext, ReactNode, useContext, useState } from 'react'
 import axios, { AxiosResponse } from 'axios'
 
 type AuthContextType = {
   user: User | null
   signIn: (payload: SignInCredentials) => void
   signUp: (payload: SignUpCredentials) => void
+  patchUser: (id: string, payload: Partial<User>) => void
 }
 
 type AuthContextProviderProps = {
@@ -49,12 +44,24 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
     setUser(response.data)
   }
 
+  const patchUser = async (id: string, payload: Partial<User>) => {
+    const response: AxiosResponse<User> = await axios.patch(
+      `${process.env.API_PATH ?? ''}api/users?id=${id}`,
+      {
+        ...payload,
+      },
+    )
+
+    setUser(response.data)
+  }
+
   return (
     <AuthContext.Provider
       value={{
         signUp,
         user,
         signIn,
+        patchUser,
       }}
     >
       {props.children}

@@ -1,11 +1,3 @@
-enum CategoriesEnum {
-  FOOD = 'FOOD',
-  TRANSPORT = 'TRANSPORT',
-  HEALTH = 'HEALTH',
-  HYGIEANE = 'HYGIEANE',
-  LEISURE = 'LEISURE',
-}
-
 interface Expenses {
   date: Date
   category: CategoriesEnum

@@ -90,7 +90,7 @@ export class Database {
       const rowIndex = this.#database[table].findIndex((row) => row.id === id)
 
       if (rowIndex > -1) {
-        const user = { id, ...data }
+        const user = { id, ...this.#database[table][rowIndex], ...data }
 
         this.#database[table][rowIndex] = user
         this.#persist()

@@ -14,9 +14,11 @@ import { FormEvent } from 'react'
 import { useAuth } from '@/Contexts/AuthProvider'
 import { useRouter } from 'next/router'
 import HeadBackButton from '@/components/HeadBackButton'
-import axios from 'axios'
+import { useExpensesContext } from '@/Contexts/ExpensesProvider'
+import { CategoriesEnum } from '@/interface/ConsumerProfileEnum.enum'
 
 export default function RegisterExpense() {
+  const { registerExpense } = useExpensesContext()
   const { user } = useAuth()
   const { push, back } = useRouter()
 
@@ -31,11 +33,9 @@ export default function RegisterExpense() {
     const category = event.currentTarget.category.value
 
     try {
-      await axios.post(`${process.env.API_PATH ?? ''}/api/expense`, {
-        id: user?.id as string,
-        value: expense,
-        category,
-      })
+      await registerExpense(user?.id as string, expense, category)
+
+      push('/expenses')
     } catch (error) {
       alert('Não foi possivel registrar deposito')
     }
@@ -102,7 +102,7 @@ export default function RegisterExpense() {
                 <option value={CategoriesEnum.FOOD}>Alimentação</option>
                 <option value={CategoriesEnum.HEALTH}>Saúde</option>
                 <option value={CategoriesEnum.TRANSPORT}>Transporte</option>
-                <option value={CategoriesEnum.HYGIEANE}>Higiene</option>
+                <option value={CategoriesEnum.HYGIENE}>Higiene</option>
                 <option value={CategoriesEnum.LEISURE}>Lazer</option>
               </Select>
             </FormControl>
