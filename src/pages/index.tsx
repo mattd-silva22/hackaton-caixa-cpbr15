@@ -10,6 +10,8 @@ import { useExpensesContext } from "@/Contexts/ExpensesProvider";
 import { useState } from "react";
 import Rewards from "@/components/Rewards";
 import HeadLogo from "@/components/HeadLogo";
+import Benefits from "@/components/Benefits";
+import Caixinhas from "@/components/Caixinhas";
 
 export default function Home() {
   const { user } = useAuth();
@@ -109,11 +111,6 @@ export default function Home() {
         </Flex>
       </Flex>
       <Flex bgColor={"#000"} flexDir={"column"} gap={"20px"} p="0 16px">
-        <FinancialHealth
-          onClick={() => push("/expenses")}
-          value={getFinanceHealth()}
-        />
-
         <OurBalance
           hideSaldo={hideSaldo}
           income={getIncome()}
@@ -123,7 +120,14 @@ export default function Home() {
 
         <CreditCard />
 
+        <FinancialHealth
+          onClick={() => push("/expenses")}
+          value={getFinanceHealth()}
+        />
+
         <Rewards />
+        <Caixinhas />
+        <Benefits />
       </Flex>
     </>
   );

@@ -1,23 +1,23 @@
-  @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100;200;300;400;500;600;700;800;900&family=Poppins:wght@400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Lexend:wght@100;200;300;400;500;600;700;800;900&family=Poppins:wght@400;500;600;700&display=swap");
 
 :root {
-  --primary:  #0336BF;
-  --secondary: #FB8300;
-  --red: #D33939;
-  --white: #FBFCFE;
-  --black: #1C1939;
+  --primary: #0336bf;
+  --secondary: #fb8300;
+  --red: #d33939;
+  --white: #fbfcfe;
+  --black: #1c1939;
 
-  --tipograthy-1: #FFFFFF;
-  --tipograthy-2: #D9D9D9;
+  --tipograthy-1: #ffffff;
+  --tipograthy-2: #d9d9d9;
 
   --background-main: #141414;
-  --background-cards: #0D0D0D;
+  --background-cards: #0d0d0d;
 
   --divider: #333333;
 
-  --success: #03C96A;
-  --warn:  #FEBB0E;
-  --danger: #D33939;
+  --success: #03c96a;
+  --warn: #febb0e;
+  --danger: #d33939;
 }
 
 * {
@@ -32,9 +32,8 @@ html,
 body {
   max-width: 390px;
   max-height: 844px;
-  overflow-x: hidden;
+  /* overflow-x: hidden; */
   height: 100%;
-
 }
 
 html {
@@ -45,7 +44,6 @@ body {
   background: #fff;
 }
 
-
 main {
   width: 100%;
   height: 100%;
@@ -54,7 +52,6 @@ main {
 text {
   color: var(--tipograthy-1);
 }
-
 
 a {
   color: inherit;
