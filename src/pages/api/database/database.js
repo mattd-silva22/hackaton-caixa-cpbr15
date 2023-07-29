@@ -21,66 +21,101 @@ export class Database {
     fs.writeFile(databasePath, JSON.stringify(this.#database))
   }
 
-  select(table, search) {
-    const data = this.#database[table] ?? []
+  async select(table, search) {
+    try {
+      const response = await fs.readFile(databasePath, 'utf8')
+      this.#database = JSON.parse(response)
 
-    if (search) {
-      return data.filter((row) => {
-        return Object.entries(search).some(([key, value]) => {
-          return !row[key] || row[key].includes(value)
+      const data = this.#database[table] ?? []
+
+      if (search) {
+        return data.filter((row) => {
+          return Object.entries(search).some(([key, value]) => {
+            return !row[key] || row[key].includes(value)
+          })
         })
-      })
-    }
+      }
 
-    return data
+      return data
+    } catch (err) {
+      this.#persist()
+    }
   }
 
-  selectOne(table, search) {
-    const data = this.#database[table] ?? []
+  async selectOne(table, search) {
+    try {
+      const response = await fs.readFile(databasePath, 'utf8')
+      this.#database = JSON.parse(response)
 
-    if (search) {
-      return data.filter((row) => {
-        return Object.entries(search).some(([key, value]) => {
-          return !row[key] || row[key].includes(value)
-        })
-      })[0]
+      const data = this.#database[table] ?? []
+
+      if (search) {
+        return data.filter((row) => {
+          return Object.entries(search).some(([key, value]) => {
+            return !row[key] || row[key].includes(value)
+          })
+        })[0]
+      }
+
+      return data
+    } catch (err) {
+      this.#persist()
     }
-
-    return data
   }
 
-  insert(table, data) {
-    if (Array.isArray(this.#database[table])) {
-      this.#database[table].push(data)
-    } else {
-      this.#database[table] = [data]
-    }
+  async insert(table, data) {
+    try {
+      const response = await fs.readFile(databasePath, 'utf8')
+      this.#database = JSON.parse(response)
 
-    this.#persist()
+      if (Array.isArray(this.#database[table])) {
+        this.#database[table].push(data)
+      } else {
+        this.#database[table] = [data]
+      }
 
-    return data
-  }
-
-  update(table, id, data) {
-    const rowIndex = this.#database[table].findIndex((row) => row.id === id)
-
-    if (rowIndex > -1) {
-      const user = { id, ...data }
-
-      this.#database[table][rowIndex] = user
       this.#persist()
 
-      return user
+      return data
+    } catch (err) {
+      this.#persist()
     }
-
-    throw new Error('User não existe.')
   }
 
-  delete(table, id) {
-    const rowIndex = this.#database[table].findIndex((item) => item.id === id)
+  async update(table, id, data) {
+    try {
+      const response = await fs.readFile(databasePath, 'utf8')
+      this.#database = JSON.parse(response)
 
-    if (rowIndex > -1) {
-      this.#database[table].splice(rowIndex, 1)
+      const rowIndex = this.#database[table].findIndex((row) => row.id === id)
+
+      if (rowIndex > -1) {
+        const user = { id, ...data }
+
+        this.#database[table][rowIndex] = user
+        this.#persist()
+
+        return user
+      }
+
+      throw new Error('User não existe.')
+    } catch (err) {
+      this.#persist()
+    }
+  }
+
+  async delete(table, id) {
+    try {
+      const response = await fs.readFile(databasePath, 'utf8')
+      this.#database = JSON.parse(response)
+
+      const rowIndex = this.#database[table].findIndex((item) => item.id === id)
+
+      if (rowIndex > -1) {
+        this.#database[table].splice(rowIndex, 1)
+        this.#persist()
+      }
+    } catch (err) {
       this.#persist()
     }
   }

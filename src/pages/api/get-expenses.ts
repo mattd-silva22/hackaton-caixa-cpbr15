@@ -30,48 +30,13 @@ export default async function handler(
   }
 
   if (req.method === 'POST') {
-    const { id, value } = req.body
+    const { id } = req.body
 
-    let userExpenses: UserExpenses[] = await database.select(TABLE_NAME, {
+    const userExpenses: UserExpenses = await database.selectOne(TABLE_NAME, {
       id,
     })
 
-    if (!userExpenses[0]) {
-      const user = await database.selectOne('users', { id })
-
-      if (!user) {
-        throw new Error('User is not created yet')
-      }
-
-      await database.insert(TABLE_NAME, {
-        id,
-        expenses: [],
-        incomes: [],
-      })
-    }
-
-    userExpenses = await database.select(TABLE_NAME, {
-      id,
-    })
-
-    const income = {
-      date: new Date(),
-      value,
-    }
-
-    const userExpense = {
-      ...userExpenses[0],
-      expenses: userExpenses[0].expenses ?? [],
-      incomes: userExpenses[0]?.incomes.concat(income).sort((a, b) => {
-        const dateA = new Date(a.date)
-        const dateB = new Date(b.date)
-        return dateB.getTime() - dateA.getTime()
-      }),
-    }
-
-    const updated = await database.update(TABLE_NAME, id, userExpense)
-
-    return res.status(201).json({ userExpense: updated })
+    return res.status(201).json({ userExpenses })
   }
 
   if (req.method === 'PATCH') {

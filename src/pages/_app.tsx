@@ -1,4 +1,5 @@
 import { AuthContextProvider } from '@/Contexts/AuthProvider'
+import { ExpensesContextProvider } from '@/Contexts/ExpensesProvider'
 import { PersistContextProvider } from '@/Contexts/PersistProvider'
 import Loading from '@/components/Loading'
 import '@/styles/globals.css'
@@ -23,7 +24,9 @@ export default function App({ Component, pageProps }: AppProps) {
         <PersistContextProvider>
           <ChakraProvider>
             <AuthContextProvider>
-              <Component {...pageProps} />
+              <ExpensesContextProvider>
+                <Component {...pageProps} />
+              </ExpensesContextProvider>
             </AuthContextProvider>
           </ChakraProvider>
         </PersistContextProvider>

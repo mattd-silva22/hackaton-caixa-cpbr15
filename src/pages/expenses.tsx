@@ -1,26 +1,45 @@
+import { useExpensesContext } from '@/Contexts/ExpensesProvider'
 import ExpensesCategoriesItems from '@/components/ExpensesCategoriesItems'
 import ExpensesHealthCard from '@/components/ExpensesHealthCard'
 import HeadBackButton from '@/components/HeadBackButton'
 import { Flex, Text } from '@chakra-ui/react'
 import { useRouter } from 'next/router'
-import React from 'react'
+import React, { useMemo } from 'react'
 import { Pie, PieChart, Cell, ResponsiveContainer } from 'recharts'
 
 const Expenses: React.FC = () => {
   const { back } = useRouter()
+  const { expenses, getFinanceHealth, limitsByIncome } = useExpensesContext()
 
-  const exampleData = [
-    {
-      name: 'alimentacao',
-      value: 10,
-      color: '#153131',
-    },
-    {
-      name: 'saude',
-      value: 30,
-      color: '#532534',
-    },
-  ]
+  const pieData = useMemo(() => {
+    return [
+      {
+        value: expenses.FOOD,
+        name: 'FOOD',
+        color: '#d53131',
+      },
+      {
+        value: expenses.HEALTH,
+        name: 'HEALTH',
+        color: '#43dd46',
+      },
+      {
+        value: expenses.TRANSPORT,
+        name: 'TRANSPORT',
+        color: '#43dd46',
+      },
+      {
+        value: expenses.HYGIEANE,
+        name: 'HYGIEANE',
+        color: '#43dd46',
+      },
+      {
+        value: expenses.LEISURE,
+        name: 'LEISURE',
+        color: '#43dd46',
+      },
+    ]
+  }, [expenses])
 
   return (
     <>
@@ -54,10 +73,10 @@ const Expenses: React.FC = () => {
               },
             }}
           >
-            <ResponsiveContainer width={200} height={120}>
+            <ResponsiveContainer width={200} height={140}>
               <PieChart>
                 <Pie
-                  data={exampleData}
+                  data={pieData}
                   dataKey="value"
                   nameKey="name"
                   cx="50%"
@@ -66,7 +85,7 @@ const Expenses: React.FC = () => {
                   outerRadius={50}
                   label
                 >
-                  {exampleData.map((entry, index) => (
+                  {pieData.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={entry.color} />
                   ))}
                 </Pie>
@@ -74,44 +93,38 @@ const Expenses: React.FC = () => {
             </ResponsiveContainer>
           </Flex>
 
-          <ExpensesHealthCard healthValue={10} />
+          <ExpensesHealthCard healthValue={getFinanceHealth()} />
 
           <Flex flexDir="column" width="100%">
             <ExpensesCategoriesItems
               title="Alimentação"
               imgPath="/expenses/burguer.svg"
-              limit={200}
-              moneySpent={400}
+              limit={limitsByIncome.FOOD}
+              moneySpent={expenses.FOOD}
             />
             <ExpensesCategoriesItems
               title="Saúde"
               imgPath="/expenses/pills.svg"
-              limit={200}
-              moneySpent={50}
+              limit={limitsByIncome.HEALTH}
+              moneySpent={expenses.HEALTH}
             />
             <ExpensesCategoriesItems
               title="Transporte"
               imgPath="/expenses/fuel.svg"
-              limit={800}
-              moneySpent={400}
+              limit={limitsByIncome.TRANSPORT}
+              moneySpent={expenses.TRANSPORT}
             />
             <ExpensesCategoriesItems
               title="Higiene"
               imgPath="/expenses/shampoo.svg"
-              limit={200}
-              moneySpent={400}
+              limit={limitsByIncome.HYGIEANE}
+              moneySpent={expenses.HYGIEANE}
             />
             <ExpensesCategoriesItems
               title="Lazer"
               imgPath="/expenses/lazer.svg"
-              limit={200}
-              moneySpent={70}
-            />
-            <ExpensesCategoriesItems
-              title="Outros"
-              imgPath="/expenses/others.svg"
-              limit={200}
-              moneySpent={70}
+              limit={limitsByIncome.LEISURE}
+              moneySpent={expenses.LEISURE}
             />
           </Flex>
         </Flex>
