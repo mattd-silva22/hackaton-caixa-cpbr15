@@ -1,5 +1,5 @@
-import { useAuth } from '@/Contexts/AuthProvider'
-import { ConsumerProfileEnum } from '@/interface/ConsumerProfileEnum.enum'
+import { useAuth } from "@/Contexts/AuthProvider";
+import { ConsumerProfileEnum } from "@/interface/ConsumerProfileEnum.enum";
 import {
   Button,
   Flex,
@@ -8,113 +8,119 @@ import {
   RadioGroup,
   Stack,
   Text,
-} from '@chakra-ui/react'
-import axios from 'axios'
-import { useRouter } from 'next/router'
-import React, { useState } from 'react'
-import { ChevronLeft } from 'react-feather'
+} from "@chakra-ui/react";
+import axios from "axios";
+import { useRouter } from "next/router";
+import React, { useState } from "react";
+import { ChevronLeft } from "react-feather";
 
+enum letters {
+  "a" = "a",
+  "b" = "b",
+  "c" = "c",
+  "d" = "d",
+}
 const questions = [
   {
-    question: 'Qual é a sua atitude em relação ao dinheiro?',
+    question: "Qual é a sua atitude em relação ao dinheiro?",
     options: [
-      { key: '1-a', label: 'Adoro gastar e aproveitar o momento!' },
-      { key: '1-b', label: 'Gosto de poupar e investir de forma segura.' },
-      { key: '1-c', label: 'Procuro um meio-termo entre gastar e poupar.' },
+      { key: "1-a", label: "Adoro gastar e aproveitar o momento!" },
+      { key: "1-b", label: "Gosto de poupar e investir de forma segura." },
+      { key: "1-c", label: "Procuro um meio-termo entre gastar e poupar." },
       {
-        key: '1-d',
-        label: 'Uso o dinheiro para investir em grandes projetos e sonhos.',
+        key: "1-d",
+        label: "Uso o dinheiro para investir em grandes projetos e sonhos.",
       },
     ],
   },
   {
-    question: 'O que você valoriza mais em um banco?',
+    question: "O que você valoriza mais em um banco?",
     options: [
-      { key: '2-a', label: 'Facilidade e praticidade nos serviços.' },
-      { key: '2-b', label: 'Segurança e solidez financeira.' },
-      { key: '2-c', label: 'Opções de investimentos e taxas atrativas.' },
+      { key: "2-a", label: "Facilidade e praticidade nos serviços." },
+      { key: "2-b", label: "Segurança e solidez financeira." },
+      { key: "2-c", label: "Opções de investimentos e taxas atrativas." },
       {
-        key: '2-d',
-        label: 'Inovação e tecnologia avançada.',
+        key: "2-d",
+        label: "Inovação e tecnologia avançada.",
       },
     ],
   },
   {
-    question: 'Como você reage a riscos financeiros?',
+    question: "Como você reage a riscos financeiros?",
     options: [
       {
-        key: '3-a',
+        key: "3-a",
         label:
-          'Não me importo com riscos, adoro buscar oportunidades de alto retorno.',
+          "Não me importo com riscos, adoro buscar oportunidades de alto retorno.",
       },
       {
-        key: '3-b',
+        key: "3-b",
         label:
-          'Evito riscos, prefiro investimentos de baixo risco mesmo que rendam menos.',
+          "Evito riscos, prefiro investimentos de baixo risco mesmo que rendam menos.",
       },
       {
-        key: '3-c',
+        key: "3-c",
         label:
-          'Aceito riscos calculados, desde que as perspectivas de retorno sejam boas.',
+          "Aceito riscos calculados, desde que as perspectivas de retorno sejam boas.",
       },
       {
-        key: '3-d',
+        key: "3-d",
         label:
-          'Encaro riscos com cautela, mas estou disposto(a) a tentar novas estratégias.',
+          "Encaro riscos com cautela, mas estou disposto(a) a tentar novas estratégias.",
       },
     ],
   },
   {
-    question: 'Qual é o seu objetivo financeiro principal?',
+    question: "Qual é o seu objetivo financeiro principal?",
     options: [
-      { key: '4-a', label: 'Viver o presente, aproveitar a vida ao máximo.' },
+      { key: "4-a", label: "Viver o presente, aproveitar a vida ao máximo." },
       {
-        key: '4-b',
-        label: 'Construir uma base financeira sólida para o futuro.',
+        key: "4-b",
+        label: "Construir uma base financeira sólida para o futuro.",
       },
       {
-        key: '4-c',
-        label: 'Fazer o dinheiro render e alcançar independência financeira.',
+        key: "4-c",
+        label: "Fazer o dinheiro render e alcançar independência financeira.",
       },
       {
-        key: '4-d',
-        label: 'Realizar grandes projetos e alcançar metas ousadas.',
+        key: "4-d",
+        label: "Realizar grandes projetos e alcançar metas ousadas.",
       },
     ],
   },
   {
-    question: 'Qual é o seu principal objetivo ao poupar/investir dinheiro?',
+    question: "Qual é o seu principal objetivo ao poupar/investir dinheiro?",
     options: [
       {
-        key: '5-a',
+        key: "5-a",
         label:
-          'Realizar sonhos de curto prazo, como viagens ou compras específicas.',
+          "Realizar sonhos de curto prazo, como viagens ou compras específicas.",
       },
       {
-        key: '5-b',
+        key: "5-b",
         label:
-          'Garantir estabilidade financeira para enfrentar imprevistos e emergências.',
+          "Garantir estabilidade financeira para enfrentar imprevistos e emergências.",
       },
       {
-        key: '5-c',
+        key: "5-c",
         label:
-          ' Aumentar o patrimônio e obter liberdade financeira no longo prazo.',
+          " Aumentar o patrimônio e obter liberdade financeira no longo prazo.",
       },
       {
-        key: '5-d',
+        key: "5-d",
         label:
-          'Conquistar uma posição de destaque e influência através dos seus investimentos.',
+          "Conquistar uma posição de destaque e influência através dos seus investimentos.",
       },
     ],
   },
-]
+];
 
 const ProfileForm: React.FC = () => {
-  const { user, patchUser } = useAuth()
-  const { back, push } = useRouter()
+  const { user, patchUser } = useAuth();
+  const { back, push } = useRouter();
 
   if (!user) {
-    push('/login')
+    push("/login");
   }
 
   const [results, setResults] = useState({
@@ -122,50 +128,50 @@ const ProfileForm: React.FC = () => {
     b: 0,
     c: 0,
     d: 0,
-  })
+  });
 
-  const [hasAnsweredAll, setHasAnsweredAll] = useState<string[]>([])
+  const [hasAnsweredAll, setHasAnsweredAll] = useState<string[]>([]);
 
   function handleSelectRadio(key: string) {
-    const [number, letter] = key.split('-')
+    const [number, letter] = key.split("-");
 
     if (!hasAnsweredAll.find((item) => item === number)) {
-      setHasAnsweredAll((state) => state.concat([number]))
+      setHasAnsweredAll((state) => state.concat([number]));
     }
 
     setResults((state) => ({
       ...state,
-      [letter]: state[letter] + 1,
-    }))
+      [letter]: state[letter as letters] + 1,
+    }));
   }
 
   async function handleComplete() {
     const letter = Object.entries(results).reduce(
       (lett, item) => (item[1] > lett[1] ? item : lett),
-      ['a', 0],
-    )[0]
+      ["a", 0]
+    )[0];
 
     const perfil =
-      letter === 'a'
+      letter === "a"
         ? ConsumerProfileEnum.AVENTUREIRO
-        : letter === 'b'
+        : letter === "b"
         ? ConsumerProfileEnum.CONSERVADOR
-        : letter === 'c'
+        : letter === "c"
         ? ConsumerProfileEnum.EQUILIBRADO
-        : ConsumerProfileEnum.VISIONARIO
+        : ConsumerProfileEnum.VISIONARIO;
 
     try {
       await patchUser(
-        `${process.env.API_PATH ?? ''}/api/users?id=${user?.id}`,
+        `${process.env.API_PATH ?? ""}/api/users?id=${user?.id}`,
         {
           ...user,
-          'consumer-profile': perfil,
-        },
-      )
+          "consumer-profile": perfil,
+        }
+      );
 
-      push('/expenses')
+      push("/expenses");
     } catch (error) {
-      alert('Não foi possivel completar')
+      alert("Não foi possivel completar");
     }
   }
 
@@ -237,7 +243,7 @@ const ProfileForm: React.FC = () => {
                 </Stack>
               </RadioGroup>
             </Flex>
-          )
+          );
         })}
 
         <Button
@@ -253,7 +259,7 @@ const ProfileForm: React.FC = () => {
         </Button>
       </form>
     </Flex>
-  )
-}
+  );
+};
 
-export default ProfileForm
+export default ProfileForm;

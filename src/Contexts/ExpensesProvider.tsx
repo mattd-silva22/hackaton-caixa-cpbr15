@@ -126,8 +126,10 @@ export function ExpensesContextProvider(props: ExpensesContextProviderProps) {
     }
 
     userExpenses.expenses.forEach((item) => {
-      if (typeof expenses[item.category] !== "undefined") {
-        expenses[item.category] += +item.value;
+      if (
+        typeof expenses[item.category as keyof ExpensesData] !== "undefined"
+      ) {
+        expenses[item.category as keyof ExpensesData] += +item.value;
       }
     });
 
@@ -170,8 +172,11 @@ export function ExpensesContextProvider(props: ExpensesContextProviderProps) {
         return 0;
       }
 
-      if (expenses[key] > (income * limits[key]) / 100) {
-        return health - limits[key];
+      if (
+        expenses[key as keyof ExpensesData] >
+        (income * limits[key as keyof ExpensesData]) / 100
+      ) {
+        return health - limits[key as keyof ExpensesData];
       }
 
       return health;
