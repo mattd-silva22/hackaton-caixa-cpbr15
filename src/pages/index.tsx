@@ -1,16 +1,20 @@
 import Head from 'next/head'
-import MenuButton from '@/components/MenuButton'
-import { Avatar, AvatarBadge, Flex, Image, Text } from '@chakra-ui/react'
-import { Eye, Heart, Sun } from 'react-feather'
+import { Avatar, Flex, Text } from '@chakra-ui/react'
+import { Eye, Sun, EyeOff } from 'react-feather'
 import FinancialHealth from '@/components/FinancialHealth'
 import OurBalance from '@/components/OurBalance'
 import CreditCard from '@/components/CreditCard'
 import { useAuth } from '@/Contexts/AuthProvider'
 import { useRouter } from 'next/router'
+import { useExpensesContext } from '@/Contexts/ExpensesProvider'
+import { useState } from 'react'
 
 export default function Home() {
   const { user } = useAuth()
+  const { getFinanceHealth, getSaldo } = useExpensesContext()
   const { push } = useRouter()
+
+  const [hideSaldo, setHideSaldo] = useState(false)
 
   if (!user) {
     push('/login')
@@ -81,7 +85,7 @@ export default function Home() {
 
               <Flex flexDir={'column'} w="80%">
                 <Text fontSize={'16px'} fontWeight={'bold'}>
-                  Alexandre Shyjada
+                  {user?.name}
                 </Text>
                 <Flex
                   fontSize={'12px'}
@@ -105,8 +109,10 @@ export default function Home() {
               h="40px"
               w="40px"
               borderRadius={'5px'}
+              cursor="pointer"
+              onClick={() => setHideSaldo((state) => !state)}
             >
-              <Eye size="24px" />
+              {hideSaldo ? <EyeOff size="24px" /> : <Eye size="24px" />}
             </Flex>
           </Flex>
 
@@ -124,16 +130,19 @@ export default function Home() {
                 R$
               </Text>
               <Text fontSize={'28px'} lineHeight="36px" fontWeight={'bold'}>
-                534,23
+                {hideSaldo ? '******' : getSaldo()}
               </Text>
             </Flex>
           </Flex>
         </Flex>
       </Flex>
       <Flex bgColor={'#000'} flexDir={'column'} gap={'20px'} p="0 16px">
-        <FinancialHealth onClick={() => push('/expenses')} />
+        <FinancialHealth
+          onClick={() => push('/expenses')}
+          value={getFinanceHealth()}
+        />
 
-        <OurBalance />
+        <OurBalance hideSaldo={hideSaldo} />
 
         <CreditCard />
       </Flex>

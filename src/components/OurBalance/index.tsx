@@ -1,20 +1,20 @@
-import { Flex, Text } from "@chakra-ui/react";
-import React from "react";
-import { ArrowRight } from "react-feather";
+import { Flex, Text } from '@chakra-ui/react'
+import React from 'react'
+import { ArrowRight } from 'react-feather'
 
-export default function OurBalance() {
+export default function OurBalance({ hideSaldo = false }) {
   return (
     <>
       <Flex
         className="our-balance"
-        p={"24px"}
-        border={"1px solid #333333"}
-        borderRadius={"5px"}
-        flexDir={"column"}
-        gap={"18px"}
+        p={'24px'}
+        border={'1px solid #333333'}
+        borderRadius={'5px'}
+        flexDir={'column'}
+        gap={'18px'}
       >
-        <Flex className="section-title" justify={"space-between"} w="100%">
-          <Flex gap={"8px"}>
+        <Flex className="section-title" justify={'space-between'} w="100%">
+          <Flex gap={'8px'}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -35,43 +35,43 @@ export default function OurBalance() {
               />
             </svg>
 
-            <Text color={"#fff"} fontWeight={"bold"} fontSize={"16px"}>
+            <Text color={'#fff'} fontWeight={'bold'} fontSize={'16px'}>
               Sua Conta
             </Text>
           </Flex>
 
-          <ArrowRight color={"#fff"} />
+          <ArrowRight color={'#fff'} />
         </Flex>
 
-        <Flex className="balance-area" flexDir={"column"} gap={"16px"}>
+        <Flex className="balance-area" flexDir={'column'} gap={'16px'}>
           <Flex
             className="outcome"
             color="#fff"
             gap="14px"
-            alignItems={"center"}
-            justifyContent={"flex-start"}
+            alignItems={'center'}
+            justifyContent={'flex-start'}
           >
             <Flex
               className="tag"
               w="8px"
               h="8px"
               bg="#D33939"
-              borderRadius={"50%"}
+              borderRadius={'50%'}
             />
 
-            <Flex flexDir={"column"}>
+            <Flex flexDir={'column'}>
               <Text>Gasto</Text>
-              <Flex gap={"2px"}>
+              <Flex gap={'2px'}>
                 <Text
                   className="balance-area"
-                  fontSize={"28px"}
+                  fontSize={'28px'}
                   lineHeight="36px"
-                  fontWeight={"bold"}
+                  fontWeight={'bold'}
                 >
                   R$
                 </Text>
-                <Text fontSize={"28px"} lineHeight="36px" fontWeight={"bold"}>
-                  534,23
+                <Text fontSize={'28px'} lineHeight="36px" fontWeight={'bold'}>
+                  {hideSaldo ? '*****' : '534,23'}
                 </Text>
               </Flex>
             </Flex>
@@ -81,30 +81,30 @@ export default function OurBalance() {
             className="income"
             color="#fff"
             gap="14px"
-            alignItems={"center"}
-            justifyContent={"flex-start"}
+            alignItems={'center'}
+            justifyContent={'flex-start'}
           >
             <Flex
               className="tag"
               w="8px"
               h="8px"
               bg="#03C96A"
-              borderRadius={"50%"}
+              borderRadius={'50%'}
             />
 
-            <Flex flexDir={"column"}>
+            <Flex flexDir={'column'}>
               <Text>Recebido</Text>
-              <Flex gap={"2px"}>
+              <Flex gap={'2px'}>
                 <Text
                   className="balance-area"
-                  fontSize={"28px"}
+                  fontSize={'28px'}
                   lineHeight="36px"
-                  fontWeight={"bold"}
+                  fontWeight={'bold'}
                 >
                   R$
                 </Text>
-                <Text fontSize={"28px"} lineHeight="36px" fontWeight={"bold"}>
-                  534,23
+                <Text fontSize={'28px'} lineHeight="36px" fontWeight={'bold'}>
+                  {hideSaldo ? '*****' : '534,23'}
                 </Text>
               </Flex>
             </Flex>
@@ -114,30 +114,30 @@ export default function OurBalance() {
             className="bank"
             color="#fff"
             gap="14px"
-            alignItems={"center"}
-            justifyContent={"flex-start"}
+            alignItems={'center'}
+            justifyContent={'flex-start'}
           >
             <Flex
               className="tag"
               w="8px"
               h="8px"
               bg="#2657D9"
-              borderRadius={"50%"}
+              borderRadius={'50%'}
             />
 
-            <Flex flexDir={"column"}>
+            <Flex flexDir={'column'}>
               <Text>Guardado</Text>
-              <Flex gap={"2px"}>
+              <Flex gap={'2px'}>
                 <Text
                   className="balance-area"
-                  fontSize={"28px"}
+                  fontSize={'28px'}
                   lineHeight="36px"
-                  fontWeight={"bold"}
+                  fontWeight={'bold'}
                 >
                   R$
                 </Text>
-                <Text fontSize={"28px"} lineHeight="36px" fontWeight={"bold"}>
-                  534,23
+                <Text fontSize={'28px'} lineHeight="36px" fontWeight={'bold'}>
+                  {hideSaldo ? '*****' : '534,23'}
                 </Text>
               </Flex>
             </Flex>
@@ -145,19 +145,19 @@ export default function OurBalance() {
         </Flex>
 
         <Flex
-          align={"center"}
-          justifyContent={"center"}
-          gap={"16px"}
-          borderTop={"1px solid #333333 "}
-          w={"100%"}
+          align={'center'}
+          justifyContent={'center'}
+          gap={'16px'}
+          borderTop={'1px solid #333333 '}
+          w={'100%'}
           p="24px 0"
         >
           <Flex
             className="warning"
             bg="#000"
             p="6px"
-            border={"1px solid #333333"}
-            borderRadius={"5px"}
+            border={'1px solid #333333'}
+            borderRadius={'5px'}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -186,12 +186,12 @@ export default function OurBalance() {
               />
             </svg>
           </Flex>
-          <Text color={"#fff"} fontSize={"12px"}>
+          <Text color={'#fff'} fontSize={'12px'}>
             Você gastou mais de R$2,042 com Comida. <br />
             Isso foi mais que 25% do mês anterior
           </Text>
         </Flex>
       </Flex>
     </>
-  );
+  )
 }

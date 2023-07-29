@@ -20,8 +20,6 @@ const Expenses: React.FC = () => {
     push('/login')
   }
 
-  console.log('user', user)
-
   const pieData = useMemo(() => {
     return [
       {

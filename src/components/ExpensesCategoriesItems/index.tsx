@@ -26,7 +26,7 @@ const ExpensesCategoriesItems: React.FC<ExpensesCategoriesItemsProps> = ({
 
   function formatValueToText() {
     return isPositive
-      ? `R$${moneySpent}/${limit}`
+      ? `R$${+moneySpent}/${+limit}`
       : `R$ ${(limit - moneySpent).toFixed(2)}`
   }
 

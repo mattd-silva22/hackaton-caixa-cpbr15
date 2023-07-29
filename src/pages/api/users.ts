@@ -61,9 +61,12 @@ export default async function handler(
   }
 
   if (req.method === 'PATCH') {
-    const { id } = req.query
+    const { id } = req.body
 
-    const user = await database.update('users', id, req.body)
+    await database.update('users', id, req.body)
+    const user = await database.selectOne('users', {
+      id,
+    })
 
     return res.status(200).json(user)
   }

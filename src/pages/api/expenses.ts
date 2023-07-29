@@ -69,8 +69,6 @@ export default async function handler(
       category,
     }
 
-    console.log(userExpenses[0])
-
     const userExpense = {
       ...userExpenses[0],
       incomes: userExpenses[0].incomes ?? [],

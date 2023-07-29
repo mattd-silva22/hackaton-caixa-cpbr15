@@ -45,8 +45,6 @@ export function ExpensesContextProvider(props: ExpensesContextProviderProps) {
         `${process.env.APIT_PATH ?? ''}/api/expenses?id=${id}`,
       )
 
-      console.log(response.data)
-
       setUserExpenses(response.data)
     }
 
@@ -109,7 +107,7 @@ export function ExpensesContextProvider(props: ExpensesContextProviderProps) {
       return 0
     }
 
-    return userExpenses.incomes.reduce((sum, item) => item.value + sum, 0)
+    return userExpenses.incomes.reduce((sum, item) => +item.value + sum, 0)
   }, [userExpenses])
 
   const expenses = useMemo(() => {
@@ -127,7 +125,7 @@ export function ExpensesContextProvider(props: ExpensesContextProviderProps) {
 
     userExpenses.expenses.forEach((item) => {
       if (typeof expenses[item.category] !== 'undefined') {
-        expenses[item.category] += item.value
+        expenses[item.category] += +item.value
       }
     })
 
@@ -136,15 +134,15 @@ export function ExpensesContextProvider(props: ExpensesContextProviderProps) {
 
   const limitsByIncome = useMemo(() => {
     const limitsWithValues = {
-      FOOD: expenses.FOOD * limits.FOOD,
-      TRANSPORT: expenses.TRANSPORT * limits.TRANSPORT,
-      HEALTH: expenses.HEALTH * limits.HEALTH,
-      HYGIENE: expenses.HYGIENE * limits.HYGIENE,
-      LEISURE: expenses.LEISURE * limits.LEISURE,
+      FOOD: (income * limits.FOOD) / 100,
+      TRANSPORT: (income * limits.TRANSPORT) / 100,
+      HEALTH: (income * limits.HEALTH) / 100,
+      HYGIENE: (income * limits.HYGIENE) / 100,
+      LEISURE: (income * limits.LEISURE) / 100,
     }
 
     return limitsWithValues
-  }, [])
+  }, [expenses, limits])
 
   function getSaldo() {
     return income - Object.values(expenses).reduce((sum, item) => item + sum, 0)
@@ -180,8 +178,6 @@ export function ExpensesContextProvider(props: ExpensesContextProviderProps) {
       `${process.env.API_PATH ?? ''}/api/expenses?id=${id}`,
     )
 
-    console.log(response.data)
-
     setUserExpenses(response.data)
   }
 
@@ -190,17 +186,15 @@ export function ExpensesContextProvider(props: ExpensesContextProviderProps) {
     value: number,
     category: CategoriesEnum,
   ) {
-    await axios.post(`${process.env.API_PATH ?? ''}/api/incomes`, {
+    await axios.post(`${process.env.API_PATH ?? ''}/api/expenses`, {
       id,
-      value: income,
+      value,
+      category,
     })
 
     const response: AxiosResponse<UserExpenses> = await axios.get(
       `${process.env.API_PATH ?? ''}/api/expenses?id=${id}`,
     )
-
-    console.log(response.data)
-
     setUserExpenses(response.data)
   }
 

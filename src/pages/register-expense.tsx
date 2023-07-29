@@ -85,7 +85,7 @@ export default function RegisterExpense() {
                   <MinusIcon color="gray.300" />
                 </InputLeftElement>
                 <Input
-                  name="income"
+                  name="expense"
                   type="number"
                   placeholder="R$ XXXX"
                   background="white"
@@ -98,7 +98,13 @@ export default function RegisterExpense() {
             </FormControl>
 
             <FormControl isRequired>
-              <Select placeholder="Categoria" name="category">
+              <Select
+                placeholder="Categoria"
+                name="category"
+                background="white"
+                mt="16px"
+                isRequired
+              >
                 <option value={CategoriesEnum.FOOD}>Alimentação</option>
                 <option value={CategoriesEnum.HEALTH}>Saúde</option>
                 <option value={CategoriesEnum.TRANSPORT}>Transporte</option>
